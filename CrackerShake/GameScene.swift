@@ -22,10 +22,19 @@ class GameScene: SKScene {
             scoreLabel.text = "Score: \(score)"
         }
     }
+    var barragesLeft = 30 {
+        didSet {
+            print("Barrages Left: \(barragesLeft)")
+            if barragesLeft <= 0 {
+                gameOver()
+            }
+        }
+    }
     
     
     override func didMove(to view: SKView) {
         setupBackground()
+        setupScoreLabel()
         setupGameTimer()
     }
     
@@ -41,8 +50,18 @@ class GameScene: SKScene {
         gameTimer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(launchFireWorks), userInfo: nil, repeats: true)
     }
     
+    func setupScoreLabel() {
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.zPosition = 2
+        scoreLabel.position = CGPoint(x: 1000, y: 700)
+        score = 0
+        addChild(scoreLabel)
+    }
+    
     @objc func launchFireWorks() {
-
+        let xMovement: CGFloat = 1800
+        
         switch Int.random(in: 0...3) {
         case 0:
             // five rockets straight up
@@ -52,14 +71,13 @@ class GameScene: SKScene {
             createFanBarrage(from: bottomEdge)
         case 2:
             // five rockets from bottom left in diagonal
-            createDiagonalBarrage(fromX: leftEdge, y: bottomEdge)
+         createDiagonalBarrage(withLateralSpeed: xMovement, fromX: rightEdge, y: bottomEdge)
         case 3:
             // five rockets from bottom right in diagonal
-            createDiagonalBarrage(fromX: rightEdge, y: bottomEdge)
+         createDiagonalBarrage(withLateralSpeed: -1 * xMovement, fromX: rightEdge, y: bottomEdge)
         default:
             break
         }
-
         
     }
     
@@ -69,15 +87,18 @@ class GameScene: SKScene {
         createFireWork(withLateralSpeed: 0, at: CGPoint(x: 512 - 200, y: edge))
         createFireWork(withLateralSpeed: 0, at: CGPoint(x: 512 + 100, y: edge))
         createFireWork(withLateralSpeed: 0, at: CGPoint(x: 512 + 200, y: edge))
+        print("Linear Barrages Fired")
+        barragesLeft -= 1
     }
     
-    func createDiagonalBarrage(fromX xEdge: Int, y yEdge: Int) {
-        let xMovement: CGFloat = 1800
+    func createDiagonalBarrage(withLateralSpeed xMovement: CGFloat, fromX xEdge: Int, y yEdge: Int) {
         createFireWork(withLateralSpeed: xMovement, at: CGPoint(x: xEdge, y: yEdge + 400))
         createFireWork(withLateralSpeed: xMovement, at: CGPoint(x: xEdge, y: yEdge + 300))
         createFireWork(withLateralSpeed: xMovement, at: CGPoint(x: xEdge, y: yEdge + 200))
         createFireWork(withLateralSpeed: xMovement, at: CGPoint(x: xEdge, y: yEdge + 100))
         createFireWork(withLateralSpeed: xMovement, at: CGPoint(x: xEdge, y: yEdge))
+        print("Diagonal Barrages Fired from \(xEdge)")
+        barragesLeft -= 1
     }
     
     func createFanBarrage(from edge: Int) {
@@ -86,6 +107,8 @@ class GameScene: SKScene {
         createFireWork(withLateralSpeed: -100, at: CGPoint(x: 512 - 100, y: edge))
         createFireWork(withLateralSpeed: 100, at: CGPoint(x: 512 + 100, y: edge))
         createFireWork(withLateralSpeed: 200, at: CGPoint(x: 512 + 200, y: edge))
+        print("Fan Barrages Fired")
+        barragesLeft -= 1
     }
     
     func createFireWork(withLateralSpeed xMovement: CGFloat, at position: CGPoint) {
@@ -125,6 +148,23 @@ class GameScene: SKScene {
     
     func gameOver() {
         gameTimer?.invalidate()
+        scoreLabel.removeFromParent()
+        setupGameOverHUD()
+    }
+    
+    func setupGameOverHUD() {
+        addGameOverLabel(at: CGPoint(x: 512, y: 384), withText: "GAME OVER", ofSize: 50)
+        addGameOverLabel(at: CGPoint(x: 512, y: 250), withText: "Final Score: \(score)", ofSize: 36)
+    }
+    
+    func addGameOverLabel(at location: CGPoint, withText text: String, ofSize fontSize: CGFloat) {
+        let gameOverLabel = SKLabelNode(fontNamed: "Chalkduster")
+        gameOverLabel.fontSize = fontSize
+        gameOverLabel.text = text
+        gameOverLabel.horizontalAlignmentMode = .center
+        gameOverLabel.zPosition = 2
+        gameOverLabel.position = location
+        addChild(gameOverLabel)
     }
     
     override func update(_ currentTime: TimeInterval) {

@@ -7,6 +7,8 @@
 
 import SpriteKit
 
+// Note : use cmd + ctrl + z to do Shake Gesture on Simulator
+
 class GameScene: SKScene {
     
     let leftEdge = -22
@@ -22,7 +24,7 @@ class GameScene: SKScene {
             scoreLabel.text = "Score: \(score)"
         }
     }
-    var barragesLeft = 2 {
+    var barragesLeft = 30 {
         didSet {
             print("Barrages Left: \(barragesLeft)")
             if barragesLeft <= 0 {
@@ -213,6 +215,40 @@ class GameScene: SKScene {
             
             node.name = "selected"
             node.colorBlendFactor = 0
+        }
+    }
+    
+    func explode(_ firework: SKNode) {
+        guard let explosion = SKEmitterNode(fileNamed: "explode") else { return }
+        explosion.position = firework.position
+        addChild(explosion)
+        firework.removeFromParent()
+    }
+    
+    func explodeSelectedFireworks() {
+        var numExploded = 0
+        for (index, fireworkContainer) in fireworks.enumerated().reversed() {
+            guard let firework = fireworkContainer.children.first as? SKSpriteNode else { continue }
+            if firework.name == "selected" {
+                numExploded += 1
+                explode(fireworkContainer)
+                fireworks.remove(at: index)
+            }
+        }
+        
+        switch numExploded {
+        case 0:
+            break
+        case 1:
+            score += 100
+        case 2:
+            score += 250
+        case 3:
+            score += 500
+        case 4:
+            score += 1000
+        default:
+            score += 2000
         }
     }
 }

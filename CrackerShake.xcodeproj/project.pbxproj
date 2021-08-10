@@ -13,6 +13,8 @@
 		85D0BC3426C18C610079026B /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D0BC3326C18C610079026B /* GameViewController.swift */; };
 		85D0BC3726C18C610079026B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85D0BC3526C18C610079026B /* Main.storyboard */; };
 		85D0BC3926C18C660079026B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85D0BC3826C18C660079026B /* Assets.xcassets */; };
+		85D0BC4426C18F5C0079026B /* explode.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85D0BC4226C18F5C0079026B /* explode.sks */; };
+		85D0BC4526C18F5C0079026B /* fuse.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85D0BC4326C18F5C0079026B /* fuse.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +26,8 @@
 		85D0BC3626C18C610079026B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		85D0BC3826C18C660079026B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85D0BC3A26C18C660079026B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		85D0BC4026C18E9E0079026B /* explode.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = explode.sks; path = "../../HackingWithSwift-main/Classic/project20-files/Content/explode.sks"; sourceTree = "<group>"; };
-		85D0BC4126C18E9F0079026B /* fuse.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = fuse.sks; path = "../../HackingWithSwift-main/Classic/project20-files/Content/fuse.sks"; sourceTree = "<group>"; };
+		85D0BC4226C18F5C0079026B /* explode.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = explode.sks; path = "../../../../Downloads/HackingWithSwift-main/Classic/project20-files/Content/explode.sks"; sourceTree = "<group>"; };
+		85D0BC4326C18F5C0079026B /* fuse.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = fuse.sks; path = "../../../../Downloads/HackingWithSwift-main/Classic/project20-files/Content/fuse.sks"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +67,8 @@
 				85D0BC3526C18C610079026B /* Main.storyboard */,
 				85D0BC3826C18C660079026B /* Assets.xcassets */,
 				85D0BC3A26C18C660079026B /* Info.plist */,
-				85D0BC4026C18E9E0079026B /* explode.sks */,
-				85D0BC4126C18E9F0079026B /* fuse.sks */,
+				85D0BC4226C18F5C0079026B /* explode.sks */,
+				85D0BC4326C18F5C0079026B /* fuse.sks */,
 			);
 			path = CrackerShake;
 			sourceTree = "<group>";
@@ -130,7 +132,9 @@
 			files = (
 				85D0BC3726C18C610079026B /* Main.storyboard in Resources */,
 				85D0BC2E26C18C610079026B /* GameScene.sks in Resources */,
+				85D0BC4526C18F5C0079026B /* fuse.sks in Resources */,
 				85D0BC3926C18C660079026B /* Assets.xcassets in Resources */,
+				85D0BC4426C18F5C0079026B /* explode.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

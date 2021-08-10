@@ -22,14 +22,15 @@ class GameScene: SKScene {
             scoreLabel.text = "Score: \(score)"
         }
     }
-    var barragesLeft = 30 {
+    var barragesLeft = 2 {
         didSet {
             print("Barrages Left: \(barragesLeft)")
             if barragesLeft <= 0 {
-                gameOver()
+                areBarragesLeft = false
             }
         }
     }
+    var areBarragesLeft = true
     
     
     override func didMove(to view: SKView) {
@@ -60,6 +61,8 @@ class GameScene: SKScene {
     }
     
     @objc func launchFireWorks() {
+        guard barragesLeft > 0 else  { return }
+        
         let xMovement: CGFloat = 1800
         
         switch Int.random(in: 0...3) {
@@ -71,7 +74,7 @@ class GameScene: SKScene {
             createFanBarrage(from: bottomEdge)
         case 2:
             // five rockets from bottom left in diagonal
-         createDiagonalBarrage(withLateralSpeed: xMovement, fromX: rightEdge, y: bottomEdge)
+         createDiagonalBarrage(withLateralSpeed: xMovement, fromX: leftEdge, y: bottomEdge)
         case 3:
             // five rockets from bottom right in diagonal
          createDiagonalBarrage(withLateralSpeed: -1 * xMovement, fromX: rightEdge, y: bottomEdge)
@@ -174,6 +177,10 @@ class GameScene: SKScene {
                 fireworks.remove(at: index)
                 firework.removeFromParent()
             }
+        }
+        
+        if fireworks.isEmpty && !areBarragesLeft {
+            gameOver()
         }
     }
     

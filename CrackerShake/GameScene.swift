@@ -117,8 +117,6 @@ class GameScene: SKScene {
         let node = SKNode()
         node.position = position
         
-        fuse.position = CGPoint(x: 0, y: -22)
-        node.addChild(fuse)
         
         let firework = SKSpriteNode(imageNamed: "rocket")
         firework.colorBlendFactor = 1
@@ -132,6 +130,9 @@ class GameScene: SKScene {
                 firework.color = .red
         }
         node.addChild(firework)
+        
+        fuse.position = CGPoint(x: 0, y: -22)
+        node.addChild(fuse)
         
         let path = UIBezierPath()
         path.move(to: .zero)
@@ -169,9 +170,41 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         for node in children {
-            if node.position.y > 800 {
+            if node.position.y > 900 {
                 node.removeFromParent()
             }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        checkTouches(touches)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        checkTouches(touches)
+    }
+    
+    func checkTouches(_ touches: Set<UITouch>) {
+        guard let touch = touches.first else { return }
+        
+        let location = touch.location(in: self)
+        let nodesAtLocation = nodes(at: location)
+        
+        for case let node as SKSpriteNode in nodesAtLocation {
+            guard node.name == "firework" else { continue }
+            
+            for parent in fireworks {
+                guard let firework = parent.children.first as? SKSpriteNode else { continue }
+                if firework.name == "selected" && firework.color != node.color {
+                    firework.name = "firework"
+                    firework.colorBlendFactor = 1
+                }
+            }
+            
+            node.name = "selected"
+            node.colorBlendFactor = 0
         }
     }
 }

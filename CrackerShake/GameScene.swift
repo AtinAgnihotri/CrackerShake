@@ -223,6 +223,11 @@ class GameScene: SKScene {
         explosion.position = firework.position
         addChild(explosion)
         firework.removeFromParent()
+        
+        let wait = SKAction.wait(forDuration: 1)
+        let removeFromParent = SKAction.removeFromParent()
+        let sequence = SKAction.sequence([wait, removeFromParent])
+        explosion.run(sequence)
     }
     
     func explodeSelectedFireworks() {

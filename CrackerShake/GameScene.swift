@@ -169,9 +169,10 @@ class GameScene: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        for node in children {
-            if node.position.y > 900 {
-                node.removeFromParent()
+        for (index, firework) in fireworks.enumerated().reversed() {
+            if firework.position.y > 900 {
+                fireworks.remove(at: index)
+                firework.removeFromParent()
             }
         }
     }
